@@ -1,0 +1,28 @@
+{
+  "name": "portfolio_be",
+  "version": "1.0.0",
+  "description": "TS Backend for portfolio website 2025",
+  "main": "code/index",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon --exec tsx code/index",
+    "test": "test"
+  },
+  "keywords": [
+    "portfolio"
+  ],
+  "author": "Andy Baeck",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.1",
+    "esbuild": "0.25.0",
+    "nodemon": "^3.1.9",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
