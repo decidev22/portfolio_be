@@ -13,12 +13,13 @@ export async function getActivityList() {
 
   try {
     const response = await fetch(url, { headers });
-    if (!response.ok) {
+    if (response.status === 200) {
+      const data = response.json();
+      console.log(data);
+      return data;
+    } else if (response.status != 200) {
       throw new Error(`ERROR requesting curl request status: ${response.status}`);
     }
-    const data = await response.json();
-    console.log(data);
-    return data;
   } catch (error) {
     console.error("Error fetching events:", error);
   }
