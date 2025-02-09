@@ -17,18 +17,22 @@ export async function getActivityList() {
     if (response.status === 200) {
       const data = await response.json();
       const output: IGithubActivity[] = data.map((event: any) => {
+        const eventPayload = Object.entries(event.payload).reduce((acc, [key, value]) => {
+          if (key === "ref") acc.ref = value;
+          if (key === "commits") acc.commits = value;
+          return acc;
+        }, {} as Record<string, any>);
         return {
           id: event.id,
           type: event.type,
-          actor: event.actor.name, // actor.name
-          repo_name: event.repo.name, // repo.name match decidev/w*
+          actor: event.actor.display_login, // actor.display_login
+          repo_name: event.repo.name.substring(10), // repo.name match decidev/w*
           repo_url: event.repo.url, // repo.url
-          commit: event.payload,
+          payload: eventPayload,
           date: event.created_at, // created_at
         };
       });
-      console.log(output);
-      return data;
+      return output;
     } else if (response.status != 200) {
       throw new Error(`ERROR requesting curl request status: ${response.status}`);
     }
