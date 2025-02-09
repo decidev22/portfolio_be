@@ -19,7 +19,9 @@ export async function getActivityList() {
       const output: IGithubActivity[] = data.map((event: any) => {
         const eventPayload = Object.entries(event.payload).reduce((acc, [key, value]) => {
           if (key === "ref") acc.ref = value;
+          if (key === "ref_type") acc.ref_type = value;
           if (key === "commits") acc.commits = value;
+          if (key === "action") acc.action = value;
           return acc;
         }, {} as Record<string, any>);
         return {
