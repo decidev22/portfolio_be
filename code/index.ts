@@ -12,10 +12,10 @@ app.get("/", (req, res) => {
 app.get("/github-activities", async (req, res) => {
   try {
     const result = await getActivityList();
-    if (result && result.status === 200) {
+    if (result) {
       res.status(200).json(result);
     }
-    if (result.status != 200) {
+    if (!result) {
       res.status(401).json(result);
     }
   } catch (error) {

@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import { IGithubActivity } from "./interface/IGithubActivity.js";
 dotenv.config();
 
 export async function getActivityList() {
@@ -14,8 +15,19 @@ export async function getActivityList() {
   try {
     const response = await fetch(url, { headers });
     if (response.status === 200) {
-      const data = response.json();
-      console.log(data);
+      const data = await response.json();
+      const output: IGithubActivity[] = data.map((event: any) => {
+        return {
+          id: event.id,
+          type: event.type,
+          actor: event.actor.name, // actor.name
+          repo_name: event.repo.name, // repo.name match decidev/w*
+          repo_url: event.repo.url, // repo.url
+          commit: event.payload,
+          date: event.created_at, // created_at
+        };
+      });
+      console.log(output);
       return data;
     } else if (response.status != 200) {
       throw new Error(`ERROR requesting curl request status: ${response.status}`);
