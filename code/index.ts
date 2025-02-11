@@ -3,11 +3,13 @@ import express from "express";
 import { getActivityList } from "api-github/service/getActivityList.js";
 
 const app = express();
-const port = 3003;
+const port = 3005;
 
 app.get("/", (req, res) => {
   res.status(200).send("Hello World");
 });
+
+app.get("/getAllData", (req, res) => {});
 
 app.get("/github-activities", async (req, res) => {
   try {
