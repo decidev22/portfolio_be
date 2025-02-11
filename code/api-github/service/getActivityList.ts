@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { IGithubActivity } from "./interface/IGithubActivity.js";
+import { IGithubActivity } from "../interface/IGithubActivity.js";
 dotenv.config();
 
 export async function getActivityList() {
