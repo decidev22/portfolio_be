@@ -1,6 +1,13 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-dotenv.config();
-// const DB = mongoose.model('')
+import { Event } from "../db/schema/defaultSchema.ts";
 
-mongoose.connect(process.env.MONGO_DB_URI ? process.env.MONGO_DB_URI : "");
+type SortType = "ASC" | "DESC";
+
+export const getAllEvents = async (sortType: SortType) => {
+  try {
+    const events = await Event.find({ eventId: sortType });
+    console.log(events);
+    return events;
+  } catch (error) {
+    throw new Error("Error fetching events: " + error);
+  }
+};

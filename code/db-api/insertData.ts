@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Event from "../db/schema/defaultSchema.js";
+import { Event } from "../db/schema/defaultSchema.js";
 import dotenv from "dotenv";
 dotenv.config();
 

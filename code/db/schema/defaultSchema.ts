@@ -1,12 +1,33 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-const eventSchema = new Schema({
-  email: String,
-  name: String,
-  text: String,
-  eventId: String,
+const CommentSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  text: {
+    type: String,
+  },
+  eventId: {
+    type: String,
+  },
 });
 
-const Event = model("Event", eventSchema);
-export default Event;
+const NewsletterSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+  },
+});
+
+const eventSchema = new Schema({
+  comments: [CommentSchema],
+  newsletter: [NewsletterSchema],
+});
+
+export const Event = model("Event", eventSchema);
