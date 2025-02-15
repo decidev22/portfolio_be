@@ -3,7 +3,7 @@ import express from "express";
 import { getActivityList } from "api-github/service/getActivityList.js";
 
 const app = express();
-const port = 3005;
+const port = 3001;
 
 app.get("/", (req, res) => {
   res.status(200).send("Hello World");
@@ -25,6 +25,13 @@ app.get("/github-activities", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
+});
+
+process.on("SIGINT", () => {
+  server.close(() => {
+    console.log("Server shut down gracefully");
+    process.exit(0);
+  });
 });

@@ -20,7 +20,14 @@ export async function getActivityList() {
         const eventPayload = Object.entries(event.payload).reduce((acc, [key, value]) => {
           if (key === "ref") acc.ref = value;
           if (key === "ref_type") acc.ref_type = value;
-          if (key === "commits") acc.commits = value;
+          if (key === "commits") {
+            if (Array.isArray(value)) {
+              acc.commits = value.map((item) => Object.values(filterPayload(item)));
+            }
+            if (typeof value === "object" && value) {
+              acc.commits = filterPayload(value);
+            }
+          }
           if (key === "action") acc.action = value;
           return acc;
         }, {} as Record<string, any>);
@@ -41,4 +48,17 @@ export async function getActivityList() {
   } catch (error) {
     console.error("Error fetching events:", error);
   }
+}
+
+function filterPayload(payload: object): object {
+  const banList = ["sha", "secret"]; // List of items I don't want to share.
+  const output: { [key: string]: any } = {};
+  Object.entries(payload).filter(([key, value]) => {
+    console.log(key);
+    if (!banList.includes(key)) {
+      output[key] = typeof value === "object" && value ? filterPayload(value) : value;
+    }
+  });
+  console.log(output);
+  return output;
 }
