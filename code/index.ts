@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 
 app.get("/getAllData", async (req, res) => {
   try {
-    const result = await getAllEvents();
+    const result = await getAllEvents("ASC");
     res.status(200).json(result);
   } catch (error) {
     res.status(500).send(error);
