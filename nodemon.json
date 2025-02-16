@@ -2,5 +2,10 @@
   "watch": ["code/**"],
   "ext": "ts, json, js",
   "ignore": [],
-  "exec": "ts-node code/index.ts"
+  "exec": "ts-node code/index.ts",
+  "events": {
+    "restart": "kill-port 3001",
+    "crash": "kill-port 3001"
+  },
+  "delay": "1000"
 }

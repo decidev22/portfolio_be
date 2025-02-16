@@ -15,6 +15,7 @@ const CommentSchema = new mongoose.Schema({
   },
   eventId: {
     type: String,
+    required: true,
   },
 });
 
@@ -25,9 +26,4 @@ const NewsletterSchema = new mongoose.Schema({
   },
 });
 
-const eventSchema = new Schema({
-  comments: [CommentSchema],
-  newsletter: [NewsletterSchema],
-});
-
-export const Event = model("Event", eventSchema);
+export const CommentModel = model("Comment", CommentSchema);
