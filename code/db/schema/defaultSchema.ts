@@ -1,29 +1,50 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-const CommentSchema = new mongoose.Schema({
-  email: {
+const Author = new Schema({
+  email: { type: String, required: true },
+  name: { type: String, required: true },
+});
+
+const Commit = new Schema({
+  author: Author,
+});
+
+const Payload = new Schema({
+  ref: { type: String, required: true },
+  commits: { type: Map, of: Commit, required: true },
+  message: { type: String, required: true },
+  url: { type: String, required: true },
+});
+
+export const GhActivitySchema = new mongoose.Schema({
+  id: {
     type: String,
     required: true,
   },
-  name: {
+  type: {
     type: String,
     required: true,
   },
-  text: {
+  actor: {
     type: String,
   },
-  eventId: {
+  repo_name: {
+    type: String,
+    required: true,
+  },
+  repo_url: {
+    type: String,
+    required: true,
+  },
+  payload: {
+    type: Payload,
+    required: true,
+  },
+  date: {
     type: String,
     required: true,
   },
 });
 
-const NewsletterSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-  },
-});
-
-export const CommentModel = model("Comment", CommentSchema);
+export const GhActivityModel = model("Ghactivity", GhActivitySchema);
