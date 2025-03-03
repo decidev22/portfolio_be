@@ -14,6 +14,7 @@ export async function getActivityList() {
 
   try {
     const response = await fetch(url, { headers });
+    const banList = ["sha", "secret", "distinct"]; // List of items I don't want to share.
     if (response.status === 200) {
       const data = await response.json();
       const output: IGithubActivity[] = data.map((event: any) => {
@@ -22,10 +23,11 @@ export async function getActivityList() {
           if (key === "ref_type") acc.ref_type = value;
           if (key === "commits") {
             if (Array.isArray(value)) {
-              acc.commits = value.map((item) => Object.values(filterPayload(item)));
-            }
-            if (typeof value === "object" && value) {
-              acc.commits = filterPayload(value);
+              acc.commits = value.map((commit) => {
+                const temp = { ...commit };
+                banList.forEach((property) => delete temp[property]);
+                return temp;
+              });
             }
           }
           if (key === "action") acc.action = value;
@@ -54,11 +56,9 @@ function filterPayload(payload: object): object {
   const banList = ["sha", "secret"]; // List of items I don't want to share.
   const output: { [key: string]: any } = {};
   Object.entries(payload).filter(([key, value]) => {
-    console.log(key);
     if (!banList.includes(key)) {
       output[key] = typeof value === "object" && value ? filterPayload(value) : value;
     }
   });
-  console.log(output);
   return output;
 }
