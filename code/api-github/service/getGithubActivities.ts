@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
-import { IGithubActivity } from "../interface/IGithubActivity.js";
+import { IGithubActivity } from "../interface/IGithubActivity.ts";
 dotenv.config();
 
-export async function getActivityList() {
+export async function getGhActivities() {
   const username = "decidev22";
   const auth = process.env.GITHUB_ACCESS_TOKEN;
   const url = `https://api.github.com/users/${username}/events`;
@@ -45,20 +45,9 @@ export async function getActivityList() {
       });
       return output;
     } else if (response.status != 200) {
-      throw new Error(`ERROR requesting curl request status: ${response.status}`);
+      throw new Error(`ERROR, request status: ${response.status}`);
     }
   } catch (error) {
     console.error("Error fetching events:", error);
   }
-}
-
-function filterPayload(payload: object): object {
-  const banList = ["sha", "secret"]; // List of items I don't want to share.
-  const output: { [key: string]: any } = {};
-  Object.entries(payload).filter(([key, value]) => {
-    if (!banList.includes(key)) {
-      output[key] = typeof value === "object" && value ? filterPayload(value) : value;
-    }
-  });
-  return output;
 }
