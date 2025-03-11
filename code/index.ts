@@ -3,6 +3,7 @@ import compression from "compression";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import router from "router/index.ts";
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 dotenv.config();
 
 const mongoUrl = process.env.MONGO_DB_URI ? process.env.MONGO_DB_URI : "";
@@ -32,3 +33,33 @@ process.on("SIGINT", () => {
 });
 
 app.use("/", router());
+
+// Test lambda
+/**
+ *
+ * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
+ * @param {Object} event - API Gateway Lambda Proxy Input Format
+ *
+ * Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
+ * @returns {Object} object - API Gateway Lambda Proxy Output Format
+ *
+ */
+
+export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  try {
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "hello world",
+      }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        message: "some error happened",
+      }),
+    };
+  }
+};
