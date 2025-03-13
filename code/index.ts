@@ -16,6 +16,7 @@ if (isLocal) {
   const port = process.env.PORT || 3001;
   app.listen(port, async () => {
     console.log(`Local server running on http://localhost:${port}`);
+    console.log("Andy Baeck portfolio BE running");
   });
 }
 
