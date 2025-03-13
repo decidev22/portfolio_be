@@ -2,34 +2,46 @@ import express from "express";
 import compression from "compression";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import router from "router/index.ts";
+import serverless from "serverless-http";
+import router from "../code/router/index.ts";
 
 dotenv.config();
 
-const mongoUrl = process.env.MONGO_DB_URI ? process.env.MONGO_DB_URI : "";
+const mongoUrl = process.env.MONGO_DB_URI || "";
+const isLocal = !process.env.AWS_LAMBDA_FUNCTION_NAME;
 
 const app = express();
-const port = process.env.PORT || 3001;
-
 app.use(compression());
-
-mongoose.Promise = Promise;
-mongoose.connect(mongoUrl);
-mongoose.connection.on("connected", () => {
-  console.log("MongoDB connected to database:", mongoose.connection.name);
-});
-mongoose.connection.on("error", (error: Error) => console.log(error));
-
-const server = app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
-
-// Attempt to resolve local port being occupied even after it being shut down
-process.on("SIGINT", () => {
-  server.close(() => {
-    console.log("Server shut down gracefully");
-    process.exit(0);
-  });
-});
-
 app.use("/", router());
+
+let isConnected = false;
+
+async function connectDB() {
+  if (!isConnected) {
+    try {
+      await mongoose.connect(mongoUrl, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      } as any); // Prevents TypeScript issues
+      isConnected = true;
+      console.log("MongoDB connected");
+    } catch (error) {
+      console.error("MongoDB connection error:", error);
+    }
+  }
+}
+
+// Ensure MongoDB is connected before handling Lambda events
+if (!isLocal) {
+  await connectDB();
+}
+
+if (isLocal) {
+  const port = process.env.PORT || 3001;
+  app.listen(port, async () => {
+    await connectDB();
+    console.log(`Local server running on http://localhost:${port}`);
+  });
+}
+
+export const lambdaHandler = serverless(app);
