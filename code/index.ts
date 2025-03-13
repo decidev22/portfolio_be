@@ -1,6 +1,5 @@
 import express from "express";
 import compression from "compression";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
 import serverless from "serverless-http";
 import router from "../code/router/index.ts";
