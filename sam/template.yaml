@@ -32,10 +32,12 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: es2020
+        Target: es2022
         Sourcemap: true
         EntryPoints:
           - code/api-hello-world/index.ts
+        External:
+          - "@aws-sdk/*"
 
   GetGithubActivitiesFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -55,10 +57,12 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: es2020
+        Target: es2022
         Sourcemap: true
         EntryPoints:
           - code/index.ts
+        External:
+          - "@aws-sdk/*"
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
