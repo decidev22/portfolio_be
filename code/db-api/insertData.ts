@@ -1,17 +1,19 @@
-import mongoose from "mongoose";
-import { Event } from "../db/schema/defaultSchema.js";
-import dotenv from "dotenv";
-dotenv.config();
+// below was test code, insertData.ts will be re-written
 
-mongoose.connect(process.env.MONGO_DB_URI ? process.env.MONGO_DB_URI : "");
+// import mongoose from "mongoose";
+// import { Event } from "../db/schema/defaultSchema.js";
+// import dotenv from "dotenv";
+// dotenv.config();
 
-// Create a new blog post object
-const article = new Event({
-  email: "test_email@test.com",
-  name: "Andy Baeck",
-  text: "This is my new Portfolio",
-  eventId: "event 000",
-});
+// mongoose.connect(process.env.MONGO_DB_URI ? process.env.MONGO_DB_URI : "");
 
-// Insert the article in our MongoDB database
-await article.save();
+// // Create a new blog post object
+// const article = new Event({
+//   email: "test_email@test.com",
+//   name: "Andy Baeck",
+//   text: "This is my new Portfolio",
+//   eventId: "event 000",
+// });
+
+// // Insert the article in our MongoDB database
+// await article.save();
