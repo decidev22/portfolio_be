@@ -1,5 +1,5 @@
 import express from "express";
-import { getGhActivities } from "../../api-github/service/getGithubActivities.ts";
+import { getGhActivities } from "../service/getGithubActivities.ts";
 
 export const getGithubActivityController = async (req: express.Request, res: express.Response) => {
   try {
