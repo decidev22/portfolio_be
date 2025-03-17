@@ -14,8 +14,20 @@ import { getGithubActivityController } from "./controller/getGithubActivityContr
  */
 
 export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  const req = {} as express.Request; // Create an empty request object
+  const res = {
+    status: (statusCode: number) => ({
+      send: (body: any) => {
+        // Return response as an object, similar to what Express does
+        return {
+          statusCode,
+          body: JSON.stringify(body),
+        };
+      },
+    }),
+  } as any; // Mock the response object
   try {
-    const result = await getGithubActivityController(express.request, express.response);
+    const result = await getGithubActivityController(req, res);
     return {
       statusCode: 200,
       body: JSON.stringify({
