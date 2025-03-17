@@ -4,8 +4,9 @@ dotenv.config();
 
 export async function getGhActivities() {
   const username = "decidev22";
+  const per_page = 50;
   const auth = process.env.GITHUB_ACCESS_TOKEN;
-  const url = `https://api.github.com/users/${username}/events`;
+  const url = `https://api.github.com/users/${username}/events?per_page=${per_page}`;
   const headers = {
     Accept: "application/vnd.github+json",
     Authorization: `Bearer ${auth}`,
@@ -43,9 +44,9 @@ export async function getGhActivities() {
           type: event.type,
           actor: event.actor.display_login, // actor.display_login
           repo_name: event.repo.name.substring(10), // repo.name match decidev/w*
-          repo_url: event.repo.url, // repo.url
-          payload: eventPayload,
-          date: event.created_at, // created_at
+          repo_url: event.repo.url || "", // repo.url
+          payload: eventPayload || {},
+          date: event.created_at || new Date(), // created_at
         };
       });
       return output;

@@ -11,10 +11,10 @@ const Commit = new Schema({
 });
 
 const Payload = new Schema({
-  ref: { type: String, required: true },
-  commits: { type: Map, of: Commit, required: true },
-  message: { type: String, required: true },
-  url: { type: String, required: true },
+  ref: { type: String },
+  commits: [{ type: Commit }],
+  message: { type: String },
+  url: { type: String },
 });
 
 export const GhActivitySchema = new mongoose.Schema({
@@ -39,7 +39,7 @@ export const GhActivitySchema = new mongoose.Schema({
   },
   payload: {
     type: Payload,
-    required: true,
+    required: false,
   },
   date: {
     type: String,
