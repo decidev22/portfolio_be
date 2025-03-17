@@ -44,7 +44,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: ../code/api-github
-      Handler: index.lambdaHandler
+      Handler: getGithubActivitiesHandler.lambdaHandler
       Runtime: nodejs20.x
       Architectures:
         - x86_64
@@ -60,8 +60,6 @@ Resources:
         Minify: true
         Target: es2022
         Sourcemap: true
-        EntryPoints:
-          - code/index.ts
         Format: cjs
         External:
           - "@aws-sdk/*"
