@@ -14,6 +14,11 @@ export async function getGhActivities() {
 
   try {
     const response = await fetch(url, { headers });
+    console.log("Response Headers:", response.headers);
+    console.log("Response Status:", response.status);
+    if (!response.ok) {
+      throw new Error(`ERROR: ${response.status}`);
+    }
     const banList = ["sha", "secret", "distinct"]; // List of items I don't want to share.
     if (response.status === 200) {
       const data = await response.json();
