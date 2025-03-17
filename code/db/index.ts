@@ -12,21 +12,26 @@ async function connectDB() {
       await mongoose.connect(mongoUrl, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-      } as any); // Prevents TypeScript issues
+      } as any);
       isConnected = true;
       console.log("MongoDB connected");
     } catch (error) {
       console.error("MongoDB connection error:", error);
+      throw error; // Re-throw error to be handled by the caller
     }
   }
 }
 
-// Ensure MongoDB is connected before handling Lambda events
-if (!isLocal) {
-  await connectDB();
-}
+// This function will return a Promise that resolves once the DB is connected
+export const connectToDatabase = async () => {
+  if (!isLocal) {
+    await connectDB();
+  }
 
-if (isLocal) {
-  await connectDB();
-  console.log(`MongoDB Connected`);
-}
+  if (isLocal) {
+    await connectDB();
+    console.log(`MongoDB Connected`);
+  }
+
+  return mongoose; // Return the mongoose instance or any relevant DB object
+};

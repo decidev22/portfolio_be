@@ -1,4 +1,4 @@
-import { GhActivityModel } from "../db/schema/defaultSchema.ts";
+import { GhActivityModel } from "../../db/schema/githubSchema.ts";
 
 type SortType = "ASC" | "DESC";
 
