@@ -8,12 +8,13 @@
     "rootDir": "./code",
     "strict": true,
     "skipLibCheck": true,
-    "noEmit": false,
+    "noEmit": true,
     "allowJs": false,
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true
   },
   "include": ["code/**/*.ts"]
 }

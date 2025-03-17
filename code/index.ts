@@ -2,7 +2,7 @@ import express from "express";
 import compression from "compression";
 import dotenv from "dotenv";
 import serverless from "serverless-http";
-import router from "../code/router/index.js";
+import router from "../code/router/index.ts";
 
 dotenv.config();
 
