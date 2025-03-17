@@ -36,7 +36,7 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - code/api-hello-world/index.ts
-        Format: esm
+        Format: cjs
         External:
           - "@aws-sdk/*"
 
@@ -62,7 +62,7 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - code/index.ts
-        Format: esm
+        Format: cjs
         External:
           - "@aws-sdk/*"
 
