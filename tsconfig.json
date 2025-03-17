@@ -1,20 +1,19 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "ESNext", // Use ESNext for native module support
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true,
-    "outDir": "./dist", // Ensure output goes to dist folder
-    "skipLibCheck": true, // Optional: speeds up the build
-    "noEmit": false, // Ensure TypeScript emits files for Lambda
+    "outDir": "./dist",
+    "rootDir": "./code",
     "strict": true,
-    "baseUrl": "./code",
-    // "allowImportingTsExtensions": true,
-    "emitDeclarationOnly": false,
+    "skipLibCheck": true,
+    "noEmit": false,
     "allowJs": false,
-    "sourceMap": true, // Optional: useful for debugging
-    "declaration": true, // Optional: generate type declarations
-    "declarationMap": true
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "resolveJsonModule": true
   },
   "include": ["code/**/*.ts"]
 }
