@@ -1,12 +1,20 @@
-import express from "express";
 import { getGhActivities } from "../service/getGithubActivities.ts";
 
-export const getGithubActivityController = async (req: express.Request, res: express.Response) => {
+export const getGithubActivityController = async () => {
   try {
     console.log("getGithubActivityController is being called");
     const ghLog = await getGhActivities();
-    res.status(200).json(ghLog);
-  } catch (error) {
-    res.status(400).send(`Error, ${error}`);
+
+    // Return Lambda-compatible response
+    return {
+      statusCode: 200,
+      body: JSON.stringify(ghLog), // Ensure the body is a string (Lambda expects a string)
+    };
+  } catch (error: any) {
+    // Return Lambda-compatible error response
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: `Error: ${error.message}` }),
+    };
   }
 };
