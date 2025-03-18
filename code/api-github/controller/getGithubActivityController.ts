@@ -1,7 +1,7 @@
 import { getGhActivities } from "../service/getGithubActivities.ts";
 import express from "express";
 
-export const getGithubActivityController = async (req: express.Request, res: express.Response) => {
+export const getGithubActivityController = async (req: express.Request, res: express.Response): Promise<any> => {
   try {
     console.log("getGithubActivityController is being called");
     const ghLog = await getGhActivities();

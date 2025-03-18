@@ -1,7 +1,7 @@
 import express from "express";
 import updateGithubRecord from "../service/updateGithubRecord.ts";
 
-export const updateGithubRecordController = async (req: express.Request, res: express.Response) => {
+export const updateGithubRecordController = async (req: express.Request, res: express.Response): Promise<any> => {
   try {
     console.log("updateGithubRecordController is being called");
     await updateGithubRecord();
