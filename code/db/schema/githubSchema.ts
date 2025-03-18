@@ -6,13 +6,9 @@ const Author = new Schema({
   name: { type: String, required: true },
 });
 
-const Commit = new Schema({
-  author: Author,
-});
-
 const Payload = new Schema({
   ref: { type: String },
-  commits: [{ type: Commit }],
+  commits: [{ author: { type: Author, required: true }, message: String, url: String }],
   message: { type: String },
   url: { type: String },
 });

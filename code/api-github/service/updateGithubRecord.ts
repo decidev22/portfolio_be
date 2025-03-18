@@ -1,8 +1,19 @@
-import express from "express";
-import { updateGithubActivities } from "../../db-api/github/updateGithubActivities";
 import { getGhActivities } from "./getGithubActivities";
 import { GhActivityModel } from "../../db/schema/githubSchema";
 import { connectToDatabase } from "../../db";
+import { getLatestGithubActivity } from "../../db-api/github/getLatestGhActivity";
+
+type Author = {
+  email: string;
+  name: string;
+};
+
+type Payload = {
+  ref: string;
+  commits: [{ author: Author; message: String; url: String }];
+  message: string;
+  url: string;
+};
 
 interface IGithubActivity {
   id: string;
@@ -10,7 +21,7 @@ interface IGithubActivity {
   actor: string;
   repo_name: string;
   repo_url: string;
-  payload: string;
+  payload: Payload;
   date: string;
 }
 
@@ -21,13 +32,23 @@ const updateGithubRecord = async (values?: IGithubActivity[]) => {
     if (!db) {
       throw new Error(`Connection to database failed`);
     }
-    const initDB = await getGhActivities();
-    if (!initDB || initDB.length === 0) {
+    // get the latest item from db
+    const latestDBActivity = await getLatestGithubActivity();
+
+    // currently fetches top 50 records
+    const recentActivities = await getGhActivities();
+
+    if (!recentActivities || recentActivities.length === 0) {
       console.log("There are no events from getGhActivities");
       throw new Error(`There are no events from getGhActivities`);
     }
-    for (const event of initDB) {
-      await new GhActivityModel(event).save();
+
+    const sortedActivities = recentActivities.sort((a: any, b: any) => a.date - b.date);
+    for (const event of sortedActivities) {
+      // only update when it's more recent than latest item in db.
+      if (event.date > latestDBActivity.date) {
+        await new GhActivityModel(event).save();
+      }
     }
   } catch (error) {
     throw new Error(`Some error: ${error}`);
