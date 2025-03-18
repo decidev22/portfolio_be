@@ -15,6 +15,11 @@ export const lambdaHandlerWrapper = async (
         json: (body: any) => {
           response = {
             statusCode,
+            headers: {
+              "Access-Control-Allow-Origin": "*", // Allow all origins for now
+              "Access-Control-Allow-Methods": "GET, POST, PUT, OPTIONS", // No DELETE
+              "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            },
             body: JSON.stringify(body),
           };
           resolve(response);
