@@ -5,13 +5,29 @@ import { GhActivityModel } from "../../db/schema/githubSchema";
 import { connectToDatabase } from "../../db";
 import { getLatestGithubActivity } from "../../db-api/github/getLatestGhActivity";
 
+type Author = {
+  email: string;
+  name: string;
+};
+
+type Commit = {
+  author: Author;
+};
+
+type Payload = {
+  ref: string;
+  commits: [Commit];
+  message: string;
+  url: string;
+};
+
 interface IGithubActivity {
   id: string;
   type: string;
   actor: string;
   repo_name: string;
   repo_url: string;
-  payload: string;
+  payload: Payload;
   date: string;
 }
 
