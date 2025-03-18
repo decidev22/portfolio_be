@@ -1,5 +1,3 @@
-import express from "express";
-import { updateGithubActivities } from "../../db-api/github/updateGithubActivities";
 import { getGhActivities } from "./getGithubActivities";
 import { GhActivityModel } from "../../db/schema/githubSchema";
 import { connectToDatabase } from "../../db";
@@ -10,13 +8,9 @@ type Author = {
   name: string;
 };
 
-type Commit = {
-  author: Author;
-};
-
 type Payload = {
   ref: string;
-  commits: [Commit];
+  commits: [{ author: Author; message: String; url: String }];
   message: string;
   url: string;
 };
